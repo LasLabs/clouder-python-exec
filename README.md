@@ -24,6 +24,8 @@ The following build arguments are available for customization:
 
 | Name | Default | Description |
 |------|---------|-------------|
+| INCLUDE_DEV | 1 | Whether to install development headers and compilers. Anything other than `1` to not install them. |
+| PYTHON_PACKAGE | python3 | Python package to download. Either `python` or `python3` |
 
 
 Environment Variables
