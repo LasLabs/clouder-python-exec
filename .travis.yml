@@ -1,0 +1,12 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+install:
+  - docker build -t $TRAVIS_BUILD_NUMBER $TRAVIS_BUILD_DIR/
+
+script:
+  - docker run --name python-exec-$TRAVIS_BUILD_NUMBER -t $TRAVIS_BUILD_NUMBER
