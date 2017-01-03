@@ -10,18 +10,18 @@ env:
     - DOCKER_REPO="laslabs/clouder-python-exec"
     - PROD_BRANCH="master"
   matrix:
-    - PYTHON_PACKAGE="python3" PYTHON_VERSION="3"
-    - PYTHON_PACKAGE="python" PYTHON_VERSION="2"
+    - PYTHON_VERSION="3" PYTHON_PACKAGE="python3"
+    - PYTHON_VERSION="2" PYTHON_PACKAGE="python"
 
 install:
   - docker build --tag="${DOCKER_REPO}:${PYTHON_VERSION}" --build-arg PYTHON_PACKAGE=$PYTHON_PACKAGE $TRAVIS_BUILD_DIR/
 
 script:
-  - export BUILD_VERSION="$(docker run -t="${DOCKER_REPO}:${ODOO_VERSION}" --name="$TRAVIS_BUILD_NUMBER" "${DOCKER_REPO}:${PYTHON_VERSION}" --version)"
-  - echo $BUILD_VERSION
+  - export BUILD_VERSION=`docker run -t --name="$TRAVIS_BUILD_NUMBER" "${DOCKER_REPO}:${PYTHON_VERSION}" --version`
+  - echo $BUILD_VERSION | grep -q "Python ${PYTHON_VERSION}."
 
 after_success:
-  - 'if [ "$TRAVIS_BRANCH" == "$PROD_BRANCH" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; \
+  - if [[ "$TRAVIS_BRANCH" == "$PROD_BRANCH" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; \
       then \
-        docker login -u="$DOCKER_USER" -p="$DOCKER_PASS" && docker push $DOCKER_REPO:$ODOO_VERSION; \
-      fi'
+        docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && docker push $DOCKER_REPO:$PYTHON_VERSION; \
+      fi
