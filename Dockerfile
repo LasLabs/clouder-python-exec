@@ -1,23 +1,30 @@
 FROM clouder/base:3.4
 MAINTAINER Dave Lasley <dave@laslabs.com>
 
-ARG PYTHON_PACKAGE="python3"
-ARG INCLUDE_DEV="1"
+ARG PYTHON_VERSION="3"
+ARG INCLUDE_DEV="0"
 
-RUN apk add --no-cache build-base \
-                       "$PYTHON_PACKAGE" \
-                       "${PYTHON_PACKAGE}-dev"
+# Set version arg as an env so container is version-aware
+ENV PYTHON_VERSION="${PYTHON_VERSION}"
+ENV PYTHON_PACKAGE="python${PYTHON_VERSION}"
 
-RUN if [[ "$INCLUDE_DEV" == "1" ]]; \
+# Install Python
+RUN apk add --no-cache "${PYTHON_PACKAGE}"
+
+# Install dev dependencies
+RUN if [[ "${INCLUDE_DEV}" == "1" ]]; \
     then \
-        apk add --no-cache build-base "${PYTHON_PACAKAGE}-dev"; \
+        apk add --no-cache build-base "${PYTHON_PACKAGE}-dev"; \
     fi
 
-RUN curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | "$PYTHON_PACKAGE"
-
-RUN if [[ "$PYTHON_PACKAGE" == "python3" ]]; \
+# Symlink Python3 executable as standard python
+RUN if [[ "${PYTHON_VERSION}" == "3" ]]; \
     then \
         ln -s /usr/bin/python3 /usr/bin/python; \
     fi
 
-CMD ["cat"]
+# Install pip
+RUN curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | python
+
+# Expose python
+CMD ["python"]

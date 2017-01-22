@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/licence-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/LasLabs/clouder-python-exec.svg?branch=master)](https://travis-ci.org/LasLabs/clouder-python-exec)
 
 Clouder Python Exec
@@ -25,7 +25,7 @@ The following build arguments are available for customization:
 | Name | Default | Description |
 |------|---------|-------------|
 | INCLUDE_DEV | 1 | Whether to install development headers and compilers. Anything other than `1` to not install them. |
-| PYTHON_PACKAGE | python3 | Python package to download. Either `python` or `python3` |
+| PYTHON_VERSION | 3 | Python version to install & expose. Either `2` or `3` |
 
 
 Environment Variables

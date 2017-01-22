@@ -8,13 +8,16 @@ services:
 env:
   global:
     - DOCKER_REPO="laslabs/clouder-python-exec"
-    - BRANCH_PROD="master"
   matrix:
-    - TESTS="1" PYTHON_VERSION="3" BUILD_ARGS='PYTHON_PACKAGE="python3"'
-    - TESTS="1" PYTHON_VERSION="2" BUILD_ARGS='PYTHON_PACKAGE="python"'
+    - TESTS="1" BUILD_ARGS='PYTHON_VERSION=3'
+    - TESTS="1" BUILD_ARGS='PYTHON_VERSION=2'
+    - TESTS="1" BUILD_ARGS='PYTHON_VERSION=3,INCLUDE_DEV=1'
+    - TESTS="1" BUILD_ARGS='PYTHON_VERSION=2,INCLUDE_DEV=1'
     - LINT_CHECK="1"
-    - HUB="1" PYTHON_VERSION="3" BUILD_ARGS='PYTHON_PACKAGE="python3"'
-    - HUB="1" PYTHON_VERSION="2" BUILD_ARGS='PYTHON_PACKAGE="python"'
+    - HUB="1" DOCKER_TAG="3" BUILD_ARGS='PYTHON_VERSION=3'
+    - HUB="1" DOCKER_TAG="2" BUILD_ARGS='PYTHON_VERSION=2'
+    - HUB="1" DOCKER_TAG="3-dev" BUILD_ARGS='PYTHON_VERSION=3,INCLUDE_DEV=1'
+    - HUB="1" DOCKER_TAG="2-dev" BUILD_ARGS='PYTHON_VERSION=2,INCLUDE_DEV=1'
 
 install:
   - git clone --depth=1 https://github.com/LasLabs/docker-quality-tools.git ${HOME}/docker-quality-tools
